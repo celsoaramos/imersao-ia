@@ -11,7 +11,7 @@ function Test() {
   const [country, setCountry] = useState("");
   const [hobbies, setHobbies] = useState("");
   const genAI = new GoogleGenerativeAI(
-    "AIzaSyDb9wP437dY7OcREq9QGrV8t0mimOgWfYI"
+    "aa"
   );
   const fetchData = async () => {
     
