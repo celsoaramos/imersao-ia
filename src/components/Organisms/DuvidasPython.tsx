@@ -3,13 +3,10 @@ import React, { useState } from 'react'
 import Card from '@/components/Atoms/Card'
 import Input from '@/components/Atoms/Input'
 import Label from '@/components/Atoms/Label'
-import Select from '@/components/Atoms/Select'
-import TextArea from '@/components/Atoms/TextArea'
 import Button from '../Atoms/Button'
 import { useRouter } from "next/router";
-import { GoogleGenerativeAI } from '@google/generative-ai'
 import Loader from '../Atoms/Loader'
-import { getResponse } from '../Commons/GenAI'
+import { getResponse } from '../../pages/api/GenAI'
 import Link from 'next/link'
 
 interface DuvidasPython {

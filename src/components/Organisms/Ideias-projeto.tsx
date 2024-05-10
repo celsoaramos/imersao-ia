@@ -8,7 +8,7 @@ import TextArea from '@/components/Atoms/TextArea'
 import Button from '../Atoms/Button'
 import { useRouter } from "next/router";
 import Loader from '../Atoms/Loader'
-import { getResponse } from '../Commons/GenAI'
+import { getResponse } from '../../pages/api/GenAI'
 import Link from 'next/link'
 
 
