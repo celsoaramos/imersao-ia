@@ -46,7 +46,7 @@ const Button = ({
       )
     } else if (type === 'cancel') {
       setTypeButton(
-        'block w-full max-w-xs mx-auto bg-gray-500 hover:bg-gray-700 text-white font-bold px-3 py-3 rounded-lg',
+        'block w-full',
       )
     } else if (type === 'text') {
       setTypeButton('bg-transparent text-gray-500 font-semibold py-2 px-1')

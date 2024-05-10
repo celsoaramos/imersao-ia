@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import Loader from '../Atoms/Loader'
 import { getResponse } from '../Commons/GenAI'
+import Link from 'next/link'
 
 interface RevisaoGithubProps {
   Objetivo: string
@@ -21,7 +22,7 @@ interface RevisaoGithubProps {
 }
 
 
-const ProjetoSimilarGithub  = () => {
+const ProjetoSimilarGithub = () => {
 
   const [urlGithub, setUrlGithub] = useState('');
 
@@ -117,11 +118,16 @@ const ProjetoSimilarGithub  = () => {
         </div>
 
         <div className='flex flex-row justify-beetween mt-6 mb-6'>
-          <Button
-            type='cancel'
-            label='Voltar'
-            onClick={backIndex}
-          />
+          <Link
+            href='/'
+            className='block w-full max-w-xs mx-auto bg-gray-500 hover:bg-gray-700 text-white font-bold px-3 py-3 rounded-lg'
+          >
+            <Button
+              type='cancel'
+              label='Voltar'
+              onClick={backIndex}
+            />
+          </Link>
           <Button
             type='projetoSimilarGithub'
             label='Achar Projetos'
@@ -144,67 +150,67 @@ const ProjetoSimilarGithub  = () => {
 
         resultText &&
         <Card backgroundColor='bg-gray-100'>
-            <div className='mt-4'>
-              <Label
-                text={`Objetivo: `}
-                textSize='medium'
-                fontWeight='bolder'
-                color='text-gray-500'
-              />
-              <Label
-                text={`${resultText.Objetivo}`}
-                textSize='medium'
-                color='text-gray-500'
-              />
-              <br/>
-              <Label
-                text={`Tecnologias: `}
-                textSize='medium'
-                fontWeight='bolder'
-                color='text-gray-500'
-              />
-              <Label
-                text={`${resultText.Tecnologias}`}
-                textSize='medium'
-                color='text-gray-500'
-              />
-              <br/>
-              <Label
-                text={`Status de Desenvolvimento: `}
-                textSize='medium'
-                fontWeight='bolder'
-                color='text-gray-500'
-              />
-              <Label
-                text={`${resultText.StatusdeDesenvolvimento}`}
-                textSize='medium'
-                color='text-gray-500'
-              />
-              <br/>
-              <Label
-                text={`Contribuição: `}
-                textSize='medium'
-                fontWeight='bolder'
-                color='text-gray-500'
-              />
-              <Label
-                text={`${resultText.Contribuicao}`}
-                textSize='medium'
-                color='text-gray-500'
-              />
-              <br/>
-              <Label
-                text={`Projetos Similares: `}
-                textSize='medium'
-                fontWeight='bolder'
-                color='text-gray-500'
-              />
-              <Label
-                text={`${resultText.ProjetosSimilares}`}
-                textSize='medium'
-                color='text-gray-500'
-              />
-            </div>
+          <div className='mt-4'>
+            <Label
+              text={`Objetivo: `}
+              textSize='medium'
+              fontWeight='bolder'
+              color='text-gray-500'
+            />
+            <Label
+              text={`${resultText.Objetivo}`}
+              textSize='medium'
+              color='text-gray-500'
+            />
+            <br />
+            <Label
+              text={`Tecnologias: `}
+              textSize='medium'
+              fontWeight='bolder'
+              color='text-gray-500'
+            />
+            <Label
+              text={`${resultText.Tecnologias}`}
+              textSize='medium'
+              color='text-gray-500'
+            />
+            <br />
+            <Label
+              text={`Status de Desenvolvimento: `}
+              textSize='medium'
+              fontWeight='bolder'
+              color='text-gray-500'
+            />
+            <Label
+              text={`${resultText.StatusdeDesenvolvimento}`}
+              textSize='medium'
+              color='text-gray-500'
+            />
+            <br />
+            <Label
+              text={`Contribuição: `}
+              textSize='medium'
+              fontWeight='bolder'
+              color='text-gray-500'
+            />
+            <Label
+              text={`${resultText.Contribuicao}`}
+              textSize='medium'
+              color='text-gray-500'
+            />
+            <br />
+            <Label
+              text={`Projetos Similares: `}
+              textSize='medium'
+              fontWeight='bolder'
+              color='text-gray-500'
+            />
+            <Label
+              text={`${resultText.ProjetosSimilares}`}
+              textSize='medium'
+              color='text-gray-500'
+            />
+          </div>
         </Card>
 
       )}

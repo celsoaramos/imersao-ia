@@ -9,6 +9,7 @@ import Button from '../Atoms/Button'
 import { useRouter } from "next/router";
 import Loader from '../Atoms/Loader'
 import { getResponse } from '../Commons/GenAI'
+import Link from 'next/link'
 
 
 const IdeiasProjeto = () => {
@@ -185,11 +186,16 @@ const IdeiasProjeto = () => {
         </div>
 
         <div className='flex flex-row justify-beetween mt-6'>
-          <Button
-            type='cancel'
-            label='Voltar'
-            onClick={backIndex}
-          />
+          <Link
+            href='/'
+            className='block w-full max-w-xs mx-auto bg-gray-500 hover:bg-gray-700 text-white font-bold px-3 py-3 rounded-lg'
+          >
+            <Button
+              type='cancel'
+              label='Voltar'
+              onClick={backIndex}
+            />
+          </Link>
           <Button
             type='ideiaProjeto'
             label='Gerar Ideia'
