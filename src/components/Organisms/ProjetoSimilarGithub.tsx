@@ -9,6 +9,7 @@ import Button from '../Atoms/Button'
 import { useRouter } from "next/router";
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import Loader from '../Atoms/Loader'
+import { getResponse } from '../Commons/GenAI'
 
 interface RevisaoGithubProps {
   Objetivo: string
@@ -19,7 +20,6 @@ interface RevisaoGithubProps {
   Resultado: string
 }
 
-const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 const ProjetoSimilarGithub  = () => {
 
@@ -30,20 +30,8 @@ const ProjetoSimilarGithub  = () => {
 
   const router = useRouter();
 
-  function formatResponse(response: any) {
+  const fetchData = async () => {
 
-    const jsonWithoutQuotes = response.slice(3, -3)
-    const removeWordJson = jsonWithoutQuotes.slice(6)
-    const jsonData = JSON.parse(removeWordJson)
-
-    return jsonData;
-  }
-
-  const genAI = new GoogleGenerativeAI(apiKey ?? "");
-
-  const getResponse = async() => {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  
     const prompt = `
     ## Assistente de Projetos Open Source
   
@@ -60,7 +48,7 @@ const ProjetoSimilarGithub  = () => {
     3. **Analisar Issues:** Determine o status de desenvolvimento do projeto (ativo, inativo) e identifique possíveis problemas ou áreas para contribuição.
     4. **Sugerir Projetos Similares:**  Encontre projetos open source similares ou complementares com base na análise do projeto atual.
     
-    Formato da resposta: JSON
+    **Formato da Resposta:** Texto simples
   
     **Resultado esperado:**
     
@@ -74,7 +62,7 @@ const ProjetoSimilarGithub  = () => {
     * **Projetos Similares:** Uma lista de projetos open source relacionados que podem ser de interesse para os usuários com os seus respectivos links.
     
     **Formato da resposta:
-    Retorne um JSON sem caracteres especiais como * ou / por exemplo
+    Retorne um Texto simples sem caracteres especiais como * ou / por exemplo
     {
       "Objetivo": "Objetivos",
       "Resultado": "Resultado da análise"
@@ -86,27 +74,8 @@ const ProjetoSimilarGithub  = () => {
     **
     `
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    return text;
-  }
-
-  const fetchData = async () => {
-
-
-    const text = await getResponse();
-
-    if (text.startsWith('```')) {
-      console.log("🚀 ~ fetchData ~ text:", text)
-      console.log("entrou starts with")
-      const textWhithoutJson = text.slice(7, -3)
-      console.log("🚀 ~ fetchData ~ textWhithoutJson:", textWhithoutJson)
-      setResultText(JSON.parse(textWhithoutJson))
-    } else {
-      setResultText(JSON.parse(text))
-    }
+    const text = await getResponse(prompt);
+    setResultText(JSON.parse(text))
     setLoading(false);
 
   };
@@ -131,7 +100,7 @@ const ProjetoSimilarGithub  = () => {
         textSize='two'
       />
 
-      <form onSubmit={handleSubmit} className="mt-14">
+      <form className="mt-14">
         <div className='space-x-4'>
           <div className='flex flex-col justify-start'>
             <Label text='URL do GitHub' textSize='medium' color='text-gray-500' />
@@ -156,6 +125,7 @@ const ProjetoSimilarGithub  = () => {
           <Button
             type='projetoSimilarGithub'
             label='Achar Projetos'
+            onClick={handleSubmit}
           />
         </div>
       </form>

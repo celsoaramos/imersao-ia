@@ -7,10 +7,9 @@ import Select from '@/components/Atoms/Select'
 import TextArea from '@/components/Atoms/TextArea'
 import Button from '../Atoms/Button'
 import { useRouter } from "next/router";
-import { GoogleGenerativeAI } from '@google/generative-ai'
 import Loader from '../Atoms/Loader'
+import { getResponse } from '../Commons/GenAI'
 
-const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 const IdeiasProjeto = () => {
 
@@ -24,20 +23,7 @@ const IdeiasProjeto = () => {
 
   const router = useRouter();
 
-  function formatResponse(response: any) {
-
-    const jsonWithoutQuotes = response.slice(3, -3)
-    const removeWordJson = jsonWithoutQuotes.slice(6)
-    const jsonData = JSON.parse(removeWordJson)
-
-    return jsonData;
-  }
-
-  const genAI = new GoogleGenerativeAI(apiKey ?? "");
-
   const fetchData = async () => {
-
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = `
       Objetivo: Gerar ideias inovadoras e criativas para um novo projeto.
@@ -59,7 +45,7 @@ const IdeiasProjeto = () => {
       - Inclua uma breve descrição de cada ideia, destacando suas principais funcionalidades e benefícios.
       - A resposta tem que um array em JSON
 
-      Formato da resposta: JSON
+      Formato da resposta: Text
 
       A sua resposta DEVE seguir essa estrutura:
         [
@@ -97,26 +83,10 @@ const IdeiasProjeto = () => {
       Uma lista de ideias de projetos que atendam aos critérios especificados.
     `
 
-    const result = await model.generateContent(prompt);
-
-    const response = result.response;
-    const text = response.text();
-    console.log("🚀 ~ fetchData ~ text:", text)
-
-    if (text.startsWith(' ```json')) {
-      console.log("entrou starts with")
-      const response = formatResponse(text)
-      setResultText(response)
-    } else {
-
-      //const formattedText = formatResponse(text);
-      //console.log("🚀 ~ fetchData ~ formattedText:", formattedText)
-      setResultText(JSON.parse(text))
-      setLoading(false);
-    }
-
+    const text = await getResponse(prompt);
+    setResultText(JSON.parse(text))
+    setLoading(false);
   };
-
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -137,7 +107,7 @@ const IdeiasProjeto = () => {
         textSize='two'
       />
 
-      <form onSubmit={handleSubmit} className="mt-14">
+      <form className="mt-14">
         <div className='grid grid-cols-4 space-x-4'>
           <div className='flex flex-col justify-start'>
             <Label text='Escreva as palavras-chave aqui' textSize='medium' color='text-gray-500' />
@@ -223,6 +193,7 @@ const IdeiasProjeto = () => {
           <Button
             type='ideiaProjeto'
             label='Gerar Ideia'
+            onClick={handleSubmit}
           />
         </div>
       </form>
@@ -260,7 +231,7 @@ const IdeiasProjeto = () => {
                 textSize='medium'
                 color='text-gray-500'
               />
-              <br/>
+              <br />
               <Label
                 text={`Descrição: `}
                 textSize='medium'
@@ -272,7 +243,7 @@ const IdeiasProjeto = () => {
                 textSize='medium'
                 color='text-gray-500'
               />
-              <br/>
+              <br />
               <Label
                 text={`Funcionalidades: `}
                 textSize='medium'
@@ -284,7 +255,7 @@ const IdeiasProjeto = () => {
                 textSize='medium'
                 color='text-gray-500'
               />
-              <br/>
+              <br />
               <Label
                 text={`Benefícios: `}
                 textSize='medium'
