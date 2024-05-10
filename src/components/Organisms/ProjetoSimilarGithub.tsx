@@ -6,7 +6,6 @@ import Label from '@/components/Atoms/Label'
 import Button from '../Atoms/Button'
 import { useRouter } from "next/router";
 import Loader from '../Atoms/Loader'
-import { getResponse } from '../../pages/api/GenAI'
 import Link from 'next/link'
 
 interface RevisaoGithubProps {
@@ -72,8 +71,8 @@ const ProjetoSimilarGithub = () => {
     **
     `
 
-    const text = await getResponse(prompt);
-    setResultText(JSON.parse(text))
+    /* const text = await getResponse(prompt);
+    setResultText(JSON.parse(text)) */
     setLoading(false);
 
   };

@@ -6,7 +6,6 @@ import Label from '@/components/Atoms/Label'
 import Button from '../Atoms/Button'
 import { useRouter } from "next/router";
 import Loader from '../Atoms/Loader'
-import { getResponse } from '../../pages/api/GenAI'
 import Link from 'next/link'
 
 interface DuvidasPython {
@@ -252,10 +251,22 @@ const DuvidasPython = () => {
 
     **Formato da Resposta:** Texto simples
   `
+  fetch(`/api/genai`, {
+    method: 'POST', // Definindo o método como POST
+    headers: {
+      'Content-Type': 'application/json', // Definindo o cabeçalho Content-Type como application/json
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({ prompt }), // Convertendo o objeto prompt em uma string JSON
+  })
+    .then((response) => response.json()) // Convertendo a resposta para JSON
+    .then((data) => {
+      setResultText(data.text);
+      setLoading(false);
+    })
+    .catch((err) => console.error('Erro ao fazer a solicitação:', err));
 
-    const text = await getResponse(prompt);
-    setResultText(text)
-    setLoading(false);
+    //const text = await getResponse(prompt);
 
   };
 
