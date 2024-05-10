@@ -33,6 +33,12 @@ Criar .env: NEXT_PUBLIC_API_KEY="suaApiGoogleGemini"
 Execute o projeto: npm run dev
 
 
+🔥 Demonstração
+
+Confira o projeto em produção: 
+https://imersao-ia.vercel.app/
+
+
 🤝 Contribuindo
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
