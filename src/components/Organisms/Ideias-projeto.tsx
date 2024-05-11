@@ -83,9 +83,21 @@ const IdeiasProjeto = () => {
       Uma lista de ideias de projetos que atendam aos critérios especificados.
     `
 
-    /* const text = await getResponse(prompt);
-    setResultText(JSON.parse(text)) */
-    setLoading(false);
+    fetch(`/api/genai`, {
+      method: 'POST', // Definindo o método como POST
+      headers: {
+        'Content-Type': 'application/json', // Definindo o cabeçalho Content-Type como application/json
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ prompt }), // Convertendo o objeto prompt em uma string JSON
+    })
+      .then((response) => response.json()) // Convertendo a resposta para JSON
+      .then((data) => {
+        setResultText(JSON.parse(data.text));
+        setLoading(false);
+      })
+      .catch((err) => console.error('Erro ao fazer a solicitação:', err))
+      .finally(() => setLoading(false));
   };
 
   const handleSubmit = (e: any) => {
